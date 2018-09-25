@@ -14,7 +14,7 @@ public class TotalDistanceSolver extends Solver{
 	//	public HashMap distances = new HashMap();
 	//	distances.put(1, {0,0});
 
-	public static int [][] heuristicGrid = new int[4][4];
+    public static int [][] heuristicGrid = new int[4][4];
 
 	@Override
 	public SearchNode solve(Puzzle p) {
@@ -51,10 +51,57 @@ public class TotalDistanceSolver extends Solver{
 			System.out.println();
 		}
 	}
+	
+	public SearchNode AStar(SearchNode sn) {
+		PriorityQueue <SearchNode> pq = new PriorityQueue<SearchNode>();
+		pq.add(sn);
+		while(!pq.isEmpty()) {
+			SearchNode current = pq.poll();
+			if(current.estimate == 0)
+				return current;
+			ArrayList <SearchNode> possibleMoves  = possibleMoves(current); 
+			for(SearchNode s: possibleMoves)
+				pq.add(s);
+		}
+		
+		
+		return null;
+	}
+	
+	public static ArrayList<SearchNode> possibleMoves(SearchNode sn){
+		ArrayList<SearchNode> moves = new ArrayList<SearchNode>();
+		
+		if(sn.puzzle.canMakeMove(UP)) {
+			Puzzle newP = new Puzzle(sn.puzzle);
+			newP.makeMove(UP);
+			moves.add(new SearchNode(newP,sn.pathCost+1,calculateHeuristic(newP),sn,UP));
+		}
+		if(sn.puzzle.canMakeMove(DOWN)) {
+			Puzzle newP = new Puzzle(sn.puzzle);
+			newP.makeMove(DOWN);
+			moves.add(new SearchNode(newP,sn.pathCost+1,calculateHeuristic(newP),sn,DOWN));
+		}
+		if(sn.puzzle.canMakeMove(LEFT)) {
+			Puzzle newP = new Puzzle(sn.puzzle);
+			newP.makeMove(LEFT);
+			moves.add(new SearchNode(newP,sn.pathCost+1,calculateHeuristic(newP),sn,LEFT));
+		}
+		if(sn.puzzle.canMakeMove(RIGHT)) {
+			Puzzle newP = new Puzzle(sn.puzzle);
+			newP.makeMove(RIGHT);
+			moves.add(new SearchNode(newP,sn.pathCost+1,calculateHeuristic(newP),sn,RIGHT));
+		}
+		
+		return moves;
+	}
 
 	public static void main(String [] args)
 	{
-		System.out.println("Hello WOrld");
+		RandomPuzzle rP = new RandomPuzzle();
+		Puzzle p = new Puzzle(rP.generatePuzzle(50));
+		System.out.println(p);
+		
+		
 
 	}
 }
