@@ -54,12 +54,7 @@ public class TotalDistanceSolver extends Solver{
 
 	public static void main(String [] args)
 	{
-		System.out.println("Hello");
-		RandomPuzzle rP = new RandomPuzzle();
-		Puzzle p = new Puzzle(rP.generatePuzzle(50));
-		System.out.println(p.grid[0][0]);
-		System.out.println(p.toString());
-		System.out.println();
-		System.out.println(calculateHeuristic(p));
+		System.out.println("Hello WOrld");
+
 	}
 }
