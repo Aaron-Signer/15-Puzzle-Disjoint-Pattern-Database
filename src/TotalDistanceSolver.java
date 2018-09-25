@@ -52,16 +52,21 @@ public class TotalDistanceSolver extends Solver{
 		}
 	}
 	
-	public SearchNode AStar(SearchNode sn) {
+	public static SearchNode AStar(SearchNode sn) {
 		PriorityQueue <SearchNode> pq = new PriorityQueue<SearchNode>();
 		pq.add(sn);
+		HashMap<String,SearchNode> table = new HashMap<>();
+		table.put(sn.puzzle.toString(), sn);
 		while(!pq.isEmpty()) {
 			SearchNode current = pq.poll();
+			//System.out.println(current.puzzle);
 			if(current.estimate == 0)
 				return current;
 			ArrayList <SearchNode> possibleMoves  = possibleMoves(current); 
-			for(SearchNode s: possibleMoves)
-				pq.add(s);
+			for(SearchNode s: possibleMoves) {
+				if(!table.containsKey(s.puzzle.toString()))
+					pq.add(s);
+			}
 		}
 		
 		
@@ -95,12 +100,34 @@ public class TotalDistanceSolver extends Solver{
 		return moves;
 	}
 
+	
+	public static void printPath(SearchNode node) {
+		if(node.parent != null) {
+			printPath(node.parent);
+			System.out.println(node.puzzle);
+		}
+	}
+	
+	public static ArrayList<SearchNode> savePath(SearchNode node){
+		SearchNode cur = node.parent;
+		ArrayList<SearchNode> list = new ArrayList<SearchNode>();
+		list.add(cur);
+		if(cur.parent != null) {
+			cur = cur.parent;
+			list.add(cur);
+		}
+		return list;
+	}
 	public static void main(String [] args)
 	{
 		RandomPuzzle rP = new RandomPuzzle();
 		Puzzle p = new Puzzle(rP.generatePuzzle(50));
 		System.out.println(p);
-		
+		SearchNode test = new SearchNode(p,0, calculateHeuristic(p),null,0);
+		SearchNode result = AStar(test);
+		System.out.println(result.puzzle);
+		System.out.println("___________________________________________");
+		printPath(result);
 		
 
 	}
