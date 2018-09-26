@@ -64,8 +64,11 @@ public class TotalDistanceSolver extends Solver{
 				return current;
 			ArrayList <SearchNode> possibleMoves  = possibleMoves(current); 
 			for(SearchNode s: possibleMoves) {
-				if(!table.containsKey(s.puzzle.toString()))
+				if(!table.containsKey(s.puzzle.toString())) {
 					pq.add(s);
+					//numNodes +=1;
+				}
+				
 			}
 		}
 		
