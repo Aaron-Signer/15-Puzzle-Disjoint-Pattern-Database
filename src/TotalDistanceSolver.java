@@ -124,7 +124,7 @@ public class TotalDistanceSolver extends Solver{
 	public static void main(String [] args)
 	{
 		RandomPuzzle rP = new RandomPuzzle();
-		Puzzle p = new Puzzle(rP.generatePuzzle(50));
+		Puzzle p = new Puzzle(rP.generatePuzzle(100));
 		System.out.println(p);
 		SearchNode test = new SearchNode(p,0, calculateHeuristic(p),null,0);
 		SearchNode result = AStar(test);

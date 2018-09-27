@@ -14,38 +14,68 @@ public class BuildDatabase {
 		SearchNode node = new SearchNode(p, 1, 0, null, 0);
 		System.out.println(p);
 		hasher(node);
-		
-		ArrayList<Integer> numbers = new ArrayList<>();
-		for(int i = 0; i< 2*Math.pow(10, 13);i++) {
-			numbers.add(i);
+		ArrayList<SearchNode> allNodes = makeAllNodes();
+		for(SearchNode n: allNodes) {
+			System.out.println(n.puzzle);
 		}
-//		database[0][0] = 1;
-//		database[0][1] = 2;
-//		database[1][0] = 3;
-//		saveDatabase(database);
-//		
-//		int[][] database2 =readDatabase();
-//		System.out.println(database2[0][0]);
-//		System.out.println(database2[0][1]);
-//		System.out.println(database2[1][0]);
+		System.out.println(allNodes.size());
 	}
 	
 	
-	public ArrayList<SearchNode> makeAllFuckers(){
+	public static ArrayList<SearchNode> makeAllNodes(){
 		ArrayList<SearchNode> allNodes = new ArrayList<>();
-		
-		return null;
+		for(int c = 0;c < 16; c++) {
+			for(int b = 0; b < 16; b++) {
+				for(int a = 0; a < 16; a++){
+					if(a !=b && b!=c && a!=c) {
+					Puzzle p = makePartialPuzzle(a, b, c,1,2,3);
+					allNodes.add(new SearchNode(p,0,0,null,0));
+					p = makePartialPuzzle(a, b, c,4,5,6);
+					allNodes.add(new SearchNode(p,0,0,null,0));
+					p = makePartialPuzzle(a, b, c,7,8,9);
+					allNodes.add(new SearchNode(p,0,0,null,0));
+					p = makePartialPuzzle(a, b, c,10,11,12);
+					allNodes.add(new SearchNode(p,0,0,null,0));
+					p = makePartialPuzzle(a, b, c,13,14,15);
+					allNodes.add(new SearchNode(p,0,0,null,0));
+					}
+				}
+			}
+		}
+		return allNodes;
 	}
 	
-	public static int hasher(SearchNode sn) {
+	public static Puzzle makePartialPuzzle(int a, int b, int c, int valA, int valB, int valC){
+		int x,y =0;
+		int[][] grid = new int[4][4];
+		x =a%4;
+		y = a/4;
+		grid[y][x] = valA;
+		
+		x =b%4;
+		y = b/4;
+		grid[y][x] = valB;
+		
+		x =c%4;
+		y = c/4;
+		grid[y][x] = valC;
+		
+		Puzzle p = new Puzzle(grid);
+		return p;
+	}
+	
+	public static int[] hasher(SearchNode sn) {
+		int ret[] = new int[2];
 		for(int i = 1; i < 16; i+=3) {
 			int index1 = findLocation(sn, i)*256 + findLocation(sn, i+1)*16 + findLocation(sn, i+2);
 			int index2 = (i/3)+1;
 			//database[index1][index2] = calculateHeuristic(sn,i,i+1,i+2);
 			System.out.println(index1 + ","+index2);
 			System.out.println(calculateHeuristic(sn,i,i+1,i+2));
+			ret[0] = index1;
+			ret[1] = index2;
 		}
-		return 0;
+		return ret;
 	}
 	
 	public static int calculateHeuristic(SearchNode sn,int num1,int num2,int num3) {
