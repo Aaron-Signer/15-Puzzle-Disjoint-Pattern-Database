@@ -7,8 +7,29 @@ import java.util.ArrayList;
 
 public class BuildDatabase {
 	static int[][] database = new int[4095][5];
-	public static void main(String[] args) {
-		
+//	public static void main(String[] args) {
+//		
+//		RandomPuzzle rP = new RandomPuzzle();
+//		Puzzle p = new Puzzle(rP.generatePuzzle(3));
+//		SearchNode node = new SearchNode(p, 1, 0, null, 0);
+//		System.out.println(p);
+//		hasher(node);
+//		ArrayList<SearchNode> allNodes = makeAllNodes();
+//		for(SearchNode n: allNodes) {
+//			System.out.println(n.puzzle);
+//			int[] temp = new int[2];
+//			temp = hasher(n);
+//			ArrayList<Integer> nums = findNums(n);
+//			int calc = calculateHeuristic(n, nums.get(0), nums.get(1), nums.get(2));
+//			System.out.println(temp[0] +"," + temp[1]);
+//			System.out.println(calc + "\n__________________");
+//			database[temp[0]][temp[1]] = calc;
+//		}
+//		saveDatabase(database);
+//		System.out.println(allNodes.size());
+//	}
+	
+	public void buildDatabase() {
 		RandomPuzzle rP = new RandomPuzzle();
 		Puzzle p = new Puzzle(rP.generatePuzzle(3));
 		SearchNode node = new SearchNode(p, 1, 0, null, 0);

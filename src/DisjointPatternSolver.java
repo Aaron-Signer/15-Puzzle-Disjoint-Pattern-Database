@@ -7,24 +7,23 @@ import java.util.PriorityQueue;
 
 public class DisjointPatternSolver extends Solver{
 
-	public static int totalNodes;
 	public static int[][] database;
-	public static void main(String[] args) {
-		totalNodes = 0;
-		database = readDatabase();
-		RandomPuzzle rP = new RandomPuzzle();
-		Puzzle p = new Puzzle(rP.generatePuzzle(10));
-		System.out.println(p);
-		DisjointPatternSolver dps = new DisjointPatternSolver();
-		SearchNode result = dps.solve(p);
-		System.out.println(result.puzzle);
-		System.out.println("___________________________________________");
-		printPath(result);
-		System.out.println(totalNodes);
-	}
+//	public static void main(String[] args) {
+//		database = readDatabase();
+//		RandomPuzzle rP = new RandomPuzzle();
+//		Puzzle p = new Puzzle(rP.generatePuzzle(10));
+//		System.out.println(p);
+//		DisjointPatternSolver dps = new DisjointPatternSolver();
+//		SearchNode result = dps.solve(p);
+//		System.out.println(result.puzzle);
+//		System.out.println("___________________________________________");
+//		printPath(result);
+//		System.out.println(totalNodes);
+//	}
 
 	@Override
 	public SearchNode solve(Puzzle p) {
+		database = readDatabase();
 		SearchNode test = new SearchNode(p,0, 0,null,0);
 		test.estimate = hRistic(test);
 		return AStar(test);
@@ -39,7 +38,7 @@ public class DisjointPatternSolver extends Solver{
 //		System.out.println(index2);
 //		return index2;
 	
-	public static void printPath(SearchNode node) {
+	public void printPath(SearchNode node) {
 		if(node.parent != null) {
 			printPath(node.parent);
 			System.out.println(node.puzzle);
@@ -100,7 +99,7 @@ public class DisjointPatternSolver extends Solver{
 		return false;
 	}
 	
-	public static SearchNode AStar(SearchNode sn) {
+	public SearchNode AStar(SearchNode sn) {
 
 		PriorityQueue <SearchNode> pq = new PriorityQueue<SearchNode>();
 		pq.add(sn);
@@ -115,7 +114,7 @@ public class DisjointPatternSolver extends Solver{
 			for(SearchNode s: possibleMoves) {
 				s.estimate = hRistic(s);
 				if(!table.containsKey(s.puzzle.toString())) {
-					totalNodes+=1;
+					numNodes+=1;
 					pq.add(s);
 				}
 

@@ -6,7 +6,6 @@ public class TotalDistanceSolver extends Solver{
 
 
     public static int [][] heuristicGrid = new int[4][4];
-    public static int totalNodes;
 	@Override
 	public SearchNode solve(Puzzle p) {
 		SearchNode test = new SearchNode(p,0, calculateHeuristic(p),null,0);
@@ -43,7 +42,7 @@ public class TotalDistanceSolver extends Solver{
 		}
 	}
 	
-	public static SearchNode AStar(SearchNode sn) {
+	public SearchNode AStar(SearchNode sn) {
 		
 		PriorityQueue <SearchNode> pq = new PriorityQueue<SearchNode>();
 		pq.add(sn);
@@ -51,15 +50,15 @@ public class TotalDistanceSolver extends Solver{
 		table.put(sn.puzzle.toString(), sn);
 		while(!pq.isEmpty()) {
 			SearchNode current = pq.poll();
-			//System.out.println(current.puzzle);
+			System.out.println(current.puzzle);
 			if(current.estimate == 0)
 				return current;
 			ArrayList <SearchNode> possibleMoves  = possibleMoves(current); 
 			for(SearchNode s: possibleMoves) {
 				if(!table.containsKey(s.puzzle.toString())) {
-					totalNodes+=1;
+					numNodes+=1;
 					pq.add(s);
-					//numNodes +=1;
+					
 				}
 				
 			}
@@ -97,7 +96,7 @@ public class TotalDistanceSolver extends Solver{
 	}
 
 	
-	public static void printPath(SearchNode node) {
+	public void printPath(SearchNode node) {
 		if(node.parent != null) {
 			printPath(node.parent);
 			System.out.println(node.puzzle);
@@ -114,19 +113,19 @@ public class TotalDistanceSolver extends Solver{
 		}
 		return list;
 	}
-	public static void main(String [] args)
-	{
-		totalNodes = 0;
-		RandomPuzzle rP = new RandomPuzzle();
-		Puzzle p = new Puzzle(rP.generatePuzzle(30));
-		System.out.println(p);
-		TotalDistanceSolver tds = new TotalDistanceSolver();
-		SearchNode result = tds.solve(p);
-		System.out.println(result.puzzle);
-		System.out.println("___________________________________________");
-		printPath(result);
-		System.out.println(totalNodes);
-		
-
-	}
+//	public static void main(String [] args)
+//	{
+//		
+//		RandomPuzzle rP = new RandomPuzzle();
+//		Puzzle p = new Puzzle(rP.generatePuzzle(30));
+//		System.out.println(p);
+//		TotalDistanceSolver tds = new TotalDistanceSolver();
+//		SearchNode result = tds.solve(p);
+//		System.out.println(result.puzzle);
+//		System.out.println("___________________________________________");
+//		tds.printPath(result);
+//		System.out.println(tds.numNodes);
+//		
+//
+//	}
 }
