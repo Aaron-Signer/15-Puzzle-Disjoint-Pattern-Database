@@ -5,39 +5,31 @@ import java.util.PriorityQueue;
 public class DisjointPatternSolver extends Solver{
 
 	public int[][] database;
-	//	public static void main(String[] args) {
-	//		database = readDatabase();
-	//		RandomPuzzle rP = new RandomPuzzle();
-	//		Puzzle p = new Puzzle(rP.generatePuzzle(10));
-	//		System.out.println(p);
-	//		DisjointPatternSolver dps = new DisjointPatternSolver();
-	//		SearchNode result = dps.solve(p);
-	//		System.out.println(result.puzzle);
-	//		System.out.println("___________________________________________");
-	//		printPath(result);
-	//		System.out.println(totalNodes);
-	//	}
-
+	
 	public DisjointPatternSolver() {
+		//Builds the database
 		BuildDatabase dB = new BuildDatabase();
 		database = dB.database;
 	}
 
 	@Override
 	public SearchNode solve(Puzzle p) {
+		//takes the puzzle and calls A* on it to find a solution
 		SearchNode startPuzzle = new SearchNode(p,0, 0,null,0);
-		startPuzzle.estimate = hRistic(startPuzzle);
+		startPuzzle.estimate = heuristic(startPuzzle);
 		return AStar(startPuzzle);
 	}
 
 	public void printPath(SearchNode node) {
+		//recursively prints the path from a node to its root
 		if(node.parent != null) {
 			printPath(node.parent);
 			System.out.println(node.puzzle);
 		}
 	}
 
-	private int hRistic(SearchNode sn) {
+	private int heuristic(SearchNode sn) {
+		// finds the heuristic of the node in the database by its hashed value
 		int total = 0;
 		int hashValue = 0;
 		int index2 = 0;
@@ -51,6 +43,7 @@ public class DisjointPatternSolver extends Solver{
 	}
 
 	private int findLocation(SearchNode sn, int tile) {
+		//returns the absolute location of a node in as if stored in an array
 		for(int i =0;i<4;i++) {
 			for(int j = 0; j <4;j++) {
 				if(sn.puzzle.grid[i][j] == tile) {
@@ -62,6 +55,7 @@ public class DisjointPatternSolver extends Solver{
 	}
 
 	public SearchNode AStar(SearchNode sn) {
+		//Typical A* algorithm
 		numNodes = 0;
 		PriorityQueue <SearchNode> pq = new PriorityQueue<SearchNode>();
 		pq.add(sn);
@@ -73,7 +67,7 @@ public class DisjointPatternSolver extends Solver{
 				return current;
 			ArrayList <SearchNode> possibleMoves  = possibleMoves(current); 
 			for(SearchNode s: possibleMoves) {
-				s.estimate = hRistic(s);
+				s.estimate = heuristic(s);
 				if(!table.containsKey(s.puzzle.toString())) {
 					numNodes+=1;
 					pq.add(s);
@@ -85,6 +79,7 @@ public class DisjointPatternSolver extends Solver{
 	}
 
 	public static ArrayList<SearchNode> possibleMoves(SearchNode sn){
+		//Makes an array list of all possible moves using the canMakeMove given to us
 		ArrayList<SearchNode> moves = new ArrayList<SearchNode>();
 
 		if(sn.puzzle.canMakeMove(UP)) {
