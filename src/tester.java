@@ -2,6 +2,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import javax.swing.text.MaskFormatter;
+
 public class tester {
 
 	public static void main(String[] args) {
@@ -14,6 +16,30 @@ public class tester {
 			System.out.println();
 		}
 
+		
+	}
+	
+	public static Puzzle makePartialPuzzle(int a, int b, int c, int valA, int valB, int valC){
+		int x,y =0;
+		int[][] grid = new int[4][4];
+		for(int i = 0; i < 4;i++) 
+			for(int j = 0;j < 4;j++)
+				grid[i][j] = 0;
+
+		x =a%4;
+		y = a/4;
+		grid[y][x] = valA;
+
+		x =b%4;
+		y = b/4;
+		grid[y][x] = valB;
+
+		x =c%4;
+		y = c/4;
+		grid[y][x] = valC;
+
+		Puzzle p = new Puzzle(grid);
+		return p;
 	}
 
 	

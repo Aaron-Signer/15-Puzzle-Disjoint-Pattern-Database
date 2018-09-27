@@ -3,3 +3,8 @@
 /tester.class
 /DisjointPatternSolver.class
 /MultiRun.class
+/Puzzle.class
+/RandomPuzzle.class
+/SearchNode.class
+/Solver.class
+/TotalDistanceSolver.class

@@ -4,6 +4,7 @@
 public abstract class Solver {
 	
 	public long numNodes = 0;			// number of nodes added to priority queue
+	public long pathCost = 0;
 	
 	public static final int BLANK = 0;
 	public static final int FAILURE = -2;
@@ -31,8 +32,22 @@ public abstract class Solver {
 		System.out.println(n.puzzle);
 	}
 	
+	public void pathCost(SearchNode n)
+	{
+		if (n.parent != null)
+		{
+			pathCost++;
+			pathCost(n.parent);
+		}
+
+	}
+	
+	public long calculatePathCost(SearchNode n)
+	{
+		pathCost = 0;
+		pathCost(n);
+		return pathCost;
+	}
+	
 	public abstract SearchNode solve(Puzzle p);
-	/*
-	 * solve the given 15-puzzle
-	 */
 }
