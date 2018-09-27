@@ -3,23 +3,14 @@ import java.util.*;
 
 public class TotalDistanceSolver extends Solver{
 
-	//	int [][] distances = {{0,0}, {0,1}, {0,2}, {0,3},
-	//						  {1,0}, {1,1}, {1,2}, {1,3},
-	//			{1,0},
-	//			{1,1},
-	//			{1,2},
-	//			{1,3}}
 
-
-	//	public HashMap distances = new HashMap();
-	//	distances.put(1, {0,0});
 
     public static int [][] heuristicGrid = new int[4][4];
-
+    public static int totalNodes;
 	@Override
 	public SearchNode solve(Puzzle p) {
-		// TODO Auto-generated method stub
-		return null;
+		SearchNode test = new SearchNode(p,0, calculateHeuristic(p),null,0);
+		return AStar(test);
 	}
 
 	public static int calculateHeuristic(Puzzle p)
@@ -53,6 +44,7 @@ public class TotalDistanceSolver extends Solver{
 	}
 	
 	public static SearchNode AStar(SearchNode sn) {
+		
 		PriorityQueue <SearchNode> pq = new PriorityQueue<SearchNode>();
 		pq.add(sn);
 		HashMap<String,SearchNode> table = new HashMap<>();
@@ -65,6 +57,7 @@ public class TotalDistanceSolver extends Solver{
 			ArrayList <SearchNode> possibleMoves  = possibleMoves(current); 
 			for(SearchNode s: possibleMoves) {
 				if(!table.containsKey(s.puzzle.toString())) {
+					totalNodes+=1;
 					pq.add(s);
 					//numNodes +=1;
 				}
@@ -123,14 +116,16 @@ public class TotalDistanceSolver extends Solver{
 	}
 	public static void main(String [] args)
 	{
+		totalNodes = 0;
 		RandomPuzzle rP = new RandomPuzzle();
-		Puzzle p = new Puzzle(rP.generatePuzzle(100));
+		Puzzle p = new Puzzle(rP.generatePuzzle(30));
 		System.out.println(p);
-		SearchNode test = new SearchNode(p,0, calculateHeuristic(p),null,0);
-		SearchNode result = AStar(test);
+		TotalDistanceSolver tds = new TotalDistanceSolver();
+		SearchNode result = tds.solve(p);
 		System.out.println(result.puzzle);
 		System.out.println("___________________________________________");
 		printPath(result);
+		System.out.println(totalNodes);
 		
 
 	}

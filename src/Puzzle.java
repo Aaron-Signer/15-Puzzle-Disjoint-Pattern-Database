@@ -131,7 +131,7 @@ public class Puzzle {
 		for(int i=0; i<grid.length; i++) {
 			for(int j=0; j<grid[0].length; j++)
 				if (grid[i][j] == BLANK)
-					ans += "   ";
+					ans += " 00";
 				else
 					ans += format.format(grid[i][j]);
 			ans += "\n";
